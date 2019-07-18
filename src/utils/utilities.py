@@ -177,37 +177,27 @@ def read_metadata(metadata_path):
     
     Returns:
       meta_dict: dict of meta data, e.g.:
-         {'filename': np.array(['1-100032-A-0.wav', '1-100038-A-14.wav', ...]),
-          'fold': np.array([1, 1, ...]),
-           'target': np.array([0, 14, ...]),
-           'category': np.array(['dog', 'chirping_birds', ...]),
-           'esc10': np.array(['True', 'False', ...]),
-           'src_file': np.array(['100032', '100038', ...]),
-           'take': np.array(['A', 'A', ...])
-         }
+        {'audio_name': np.array(['a.wav', 'b.wav', ...]), 
+         'scene_label': np.array(['airport', 'bus', ...]), 
+         ...}
     '''
     df = pd.read_csv(metadata_path, sep='\t')
     
     meta_dict = {}
     
-    meta_dict['filename'] = np.array(
+    meta_dict['audio_name'] = np.array(
         [name.split('/')[1] for name in df['filename'].tolist()])
     
-    if 'fold' in df.keys():
-        meta_dict['fold'] = np.array(df['fold'])       
-    if 'target' in df.keys():
-        meta_dict['target'] = np.array(df['target'])
-    if 'category' in df.keys():
-        meta_dict['category'] = np.array(df['category'])
-    if 'esc10' in df.keys():
-        meta_dict['esc10'] = np.array(df['esc10'])
-    if 'src_file' in df.keys():
-        meta_dict['src_file'] = np.array(df['src_file'])
-    if 'take' in df.keys():
-        meta_dict['take'] = np.array(df['take'])
-     
-    return meta_dict
+    if 'scene_label' in df.keys():
+        meta_dict['scene_label'] = np.array(df['scene_label'])
+        
+    if 'identifier' in df.keys():
+        meta_dict['identifier'] = np.array(df['identifier'])
+        
+    if 'source_label' in df.keys():
+        meta_dict['source_label'] = np.array(df['source_label'])
     
+    return meta_dict
     
 def sparse_to_categorical(x, n_out):
     x = x.astype(int)
